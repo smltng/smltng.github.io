@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+<title>Sample Loading Screens</title>
+<style type="text/css">
+	svg{
+		visibility:hidden;
+		margin:auto;
+
+	}
+	.card{
+		margin:20px auto;
+		width: 20%;
+		background-color: white;
+		text-align: center;
+		padding: 30px;
+		box-shadow: 5px 5px 5px #ccc;
+	}
+	button{
+		margin:auto;
+	}
+	body{
+		background-color: #eeeeee;
+	}
+</style>
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+</head>
+
+<body>
+	<div class="card">
+	<div id="PISpinnerCanvas"></div>
+	<button type="button" id="loadPISpinner">PI Spinner</button>
+	<script>
+		var h = 150;
+		var w = 150;
+
+		//create an SVG canvas for this loading animation
+		var svg = d3.select("#PISpinnerCanvas")
+			.append("svg")
+			.attr("id","piSpinner")
+			.attr("height", h)
+			.attr("width", w)
+			.append("g")
+			.attr("transform","translate("+h/2+","+w/2+")");
+
+		//make the object to be spun
+		var spinner = d3.svg.arc()
+			.innerRadius(20*.5)
+			.innerRadius(20*.8)
+			.startAngle(0);
+
+		var bg = svg.append("path")
+			.datum({endAngle:.66*Math.PI})
+			.style("fill","steelblue")
+			.attr("d",spinner)
+			.call(spin, 1500);
+
+		//spin for a given speed
+		function spin(object, duration){
+			object.transition()
+				.ease("linear")
+				.duration(duration)
+				.attrTween("transform", function(){
+					return d3.interpolateString("rotate(0)","rotate(360)");
+				});
+
+			setTimeout(function(){spin(object, duration);}, duration);
+		}
+
+		function transitionFunction(path){
+			path.transition()
+				.duration(7500)
+				.attrTween("stroke-dasharray",tweenDash)
+				.each("end",function(){
+					d3.select(this)
+						.call(transition);
+				});
+
+		}
+
+	</script>
+	</div>
+
+	<div class="card">
+	<div id="ARCSpinnerCanvas"></div>
+	<button type="button" id="loadARCSpinner">ARC Spinner</button>
+	<script>
+		var h2 = 150;
+		var w2 = 150;
+
+		//create an SVG canvas for this loading animation
+		var svg2 = d3.select("#ARCSpinnerCanvas")
+			.append("svg")
+			.attr("id","ARCSpinner")
+			.attr("height", h2)
+			.attr("width", w2)
+			.append("g")
+			.attr("transform","translate("+h2/2+","+w2/2+")");
+
+		//make the object to be spun
+		var spinner2 = d3.svg.arc()
+			.innerRadius(20)
+			.outerRadius(23)
+			.startAngle(Math.PI);
+
+		var bg2 = svg2.append("path")
+			.datum({endAngle:.66*Math.PI})
+			.style("fill","steelblue")
+			.attr("d",spinner2)
+			.call(spin2, 1500);
+
+		//spin for a given speed
+		function spin2(object, duration){
+			object.transition()
+				.ease("linear")
+				.duration(duration)
+				.attrTween("transform", function(){
+					return d3.interpolateString("rotate(0)","rotate(360)");
+				});
+
+			setTimeout(function(){spin(object, duration);}, duration);
+		}
+
+		function transitionFunction(path){
+			path.transition()
+				.duration(7500)
+				.attrTween("stroke-dasharray",tweenDash)
+				.each("end",function(){
+					d3.select(this)
+						.call(transition);
+				});
+
+		}
+
+	</script>
+	</div>
+
+	<script>
+		$("#loadPISpinner").click(function(){
+			console.log("asdf");
+			$("#piSpinner").css('visibility','visible');
+		});
+
+		$("#loadARCSpinner").click(function(){
+			console.log("fdsa");
+			$("#ARCSpinner").css('visibility','visible');
+		})
+
+	</script>
+</body>
+
+</html>
